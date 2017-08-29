@@ -19,12 +19,20 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QWidget" name="verticalWidgetAccount" native="true">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>186</width>
+      <height>213</height>
+     </rect>
+    </property>
     <layout class="QVBoxLayout" name="verticalLayout">
      <property name="spacing">
       <number>5</number>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QHBoxLayout" name="avantarLayout">
        <property name="spacing">
         <number>0</number>
        </property>
@@ -108,9 +116,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QWidget" name="password" native="true">
+      <widget class="QWidget" name="passwordLayout" native="true">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <property name="spacing">
+         <number>0</number>
+        </property>
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -145,6 +165,9 @@
           </property>
           <property name="cursor">
            <cursorShape>PointingHandCursor</cursorShape>
+          </property>
+          <property name="focusPolicy">
+           <enum>Qt::NoFocus</enum>
           </property>
           <property name="text">
            <string/>
@@ -232,6 +255,9 @@
     </property>
     <property name="cursor">
      <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
     </property>
     <property name="text">
      <string/>

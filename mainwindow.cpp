@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QSettings>
 #include <QProcess>
+#include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -26,7 +27,15 @@ MainWindow::MainWindow(QWidget *parent) :
     QSettings *settings = new QSettings("/var/lib/AccountsService/users/" + userName, QSettings::IniFormat);
     QString avantar = settings->value("/User/Icon").toString().replace("file://","");
     //qDebug() << avantar;
-    QPixmap pixmap(avantar);
+    QPixmap pixmapa(avantar);
+    QPixmap pixmap(80,80);
+    pixmap.fill(Qt::transparent);
+    QPainter painter(&pixmap);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    QPainterPath path;
+    path.addEllipse(0, 0, 80, 80);
+    painter.setClipPath(path);
+    painter.drawPixmap(0, 0, 80, 80, pixmapa);
     ui->labelAvantar->setPixmap(pixmap);
     QString greeterBackground = settings->value("/User/GreeterBackground").toString().replace("file://","");
     // background-image 不能拉伸，border-image 可以自动拉伸。
