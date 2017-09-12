@@ -23,6 +23,11 @@ private slots:
     void on_pushButtonLogin_clicked();
     void on_pushButtonShutdown_clicked();
     void passwordChange(QString);
+    void logout();
+    void reboot();
+    void suspend();
+    void hibernate();
+    void lock();
 };
 
 #endif // MAINWINDOW_H
