@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->pushButtonShutMenu->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
+    ui->pushButtonShutMenu->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));   
     updateTime();
     showFullScreen();    
 
@@ -40,32 +40,37 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->labelAvantar->setPixmap(pixmap);
     QString greeterBackground = settings->value("/User/GreeterBackground").toString().replace("file://","");
     // background-image 不能拉伸，border-image 可以自动拉伸。
-    QString styles = "MainWindow{ border-image: url(" + greeterBackground + ");}";
-    setStyleSheet(styles);
-    ui->pushButtonShutdown->move(QApplication::desktop()->width()-130,QApplication::desktop()->height()-70);
-    ui->pushButtonShutMenu->move(ui->pushButtonShutdown->x()+ui->pushButtonShutdown->width()+10,ui->pushButtonShutdown->y());
-    ui->verticalWidgetTime->move(10,QApplication::desktop()->height()-130);
-    ui->verticalWidgetAccount->move((QApplication::desktop()->width()-ui->verticalWidgetAccount->width())/2,(QApplication::desktop()->height()-ui->verticalWidgetAccount->height())/2);
+    QString sstyle = "MainWindow { border-image:url(" + greeterBackground + ");}"
+                     "QMenu { border:1px solid rgba(255,255,255,10); background-color:rgba(255,255,255,10); }"
+                     "QMenu::item { border:1px solid rgba(255,255,255,10); background-color:rgba(255,255,255,10);}"
+                     "QMenu::item:selected { border:1px solid rgba(255,255,255,30); background-color:rgba(255,255,255,30); }"
+                     "QPushButton::menu-indicator { width:0px; }"
+                     "QPushButton:focus { border:1px solid rgba(255,255,255,30); background-color:rgba(255,255,255,30); outline:none; }";
+    setStyleSheet(sstyle);
+    ui->pushButtonShutdown->move(QApplication::desktop()->width() - 130, QApplication::desktop()->height() - 70);
+    ui->pushButtonShutMenu->move(ui->pushButtonShutdown->x() + ui->pushButtonShutdown->width()+10, ui->pushButtonShutdown->y());
+    ui->verticalWidgetTime->move(10, QApplication::desktop()->height() - 130);
+    ui->verticalWidgetAccount->move((QApplication::desktop()->width()-ui->verticalWidgetAccount->width())/2, (QApplication::desktop()->height()-ui->verticalWidgetAccount->height())/2);
     connect(ui->lineEditPassword,SIGNAL(textChanged(QString)),this,SLOT(passwordChange(QString)));
     connect(ui->lineEditPassword,SIGNAL(returnPressed()),this,SLOT(on_pushButtonLogin_clicked()));
 
-    QMenu *shutmenu=new QMenu;
-    QAction *logout=new QAction("注销",this);
-    QAction *reboot=new QAction("重启",this);
-    QAction *suspend=new QAction("待机",this);
-    QAction *hibernate=new QAction("休眠",this);
-    QAction *lock=new QAction("锁定",this);
-    shutmenu->addAction(logout);
-    shutmenu->addAction(reboot);
-    shutmenu->addAction(suspend);
-    shutmenu->addAction(hibernate);
-    shutmenu->addAction(lock);
-    ui->pushButtonShutMenu->setMenu(shutmenu);
-    connect(logout,SIGNAL(triggered()),this,SLOT(logout()));
-    connect(reboot,SIGNAL(triggered()),this,SLOT(reboot()));
-    connect(suspend,SIGNAL(triggered()),this,SLOT(suspend()));
-    connect(hibernate,SIGNAL(triggered()),this,SLOT(hibernate()));
-    connect(lock,SIGNAL(triggered()),this,SLOT(lock()));
+    QMenu *menu = new QMenu;
+    QAction *action_logout = new QAction("注销",this);
+    QAction *action_reboot = new QAction("重启",this);
+    QAction *action_suspend = new QAction("待机",this);
+    QAction *action_hibernate = new QAction("休眠",this);
+    QAction *action_lock = new QAction("锁定",this);
+    menu->addAction(action_logout);
+    menu->addAction(action_reboot);
+    menu->addAction(action_suspend);
+    menu->addAction(action_hibernate);
+    menu->addAction(action_lock);
+    ui->pushButtonShutMenu->setMenu(menu);
+    connect(action_logout,SIGNAL(triggered()),this,SLOT(logout()));
+    connect(action_reboot,SIGNAL(triggered()),this,SLOT(reboot()));
+    connect(action_suspend,SIGNAL(triggered()),this,SLOT(suspend()));
+    connect(action_hibernate,SIGNAL(triggered()),this,SLOT(hibernate()));
+    connect(action_lock,SIGNAL(triggered()),this,SLOT(lock()));
 }
 
 MainWindow::~MainWindow()
