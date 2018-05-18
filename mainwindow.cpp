@@ -45,10 +45,12 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QString userName = QStandardPaths::standardLocations(QStandardPaths::HomeLocation).at(0).section('/', -1);
     ui->labelUserName->setText(userName);
+
     // 登录设置文件：/var/lib/AccountsService/users/用户名
     QSettings *settings = new QSettings("/var/lib/AccountsService/users/" + userName, QSettings::IniFormat);
     QString avantar = settings->value("/User/Icon").toString().replace("file://","");
     //qDebug() << avantar;
+    //绘制圆形头像
     QPixmap pixmapa(avantar);
     QPixmap pixmap(80,80);
     pixmap.fill(Qt::transparent);
@@ -59,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) :
     painter.setClipPath(path);
     painter.drawPixmap(0, 0, 80, 80, pixmapa);
     ui->labelAvantar->setPixmap(pixmap);
+
     QString greeterBackground = settings->value("/User/GreeterBackground").toString().replace("file://","");
     // background-image 不能拉伸，border-image 可以自动拉伸。
     QString sstyle = "MainWindow { border-image:url(" + greeterBackground + ");}"
