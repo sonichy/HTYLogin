@@ -1,6 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>icon.png</file>
-        <file>shutdown.png</file>
+        <file>shutdown.svg</file>
+        <file>shutdown_hover.svg</file>
+        <file>menu.svg</file>
+        <file>menu_hover.svg</file>
     </qresource>
 </RCC>

@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    ui->pushButtonShutMenu->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));   
+    //ui->pushButtonShutMenu->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     updateTime();
     showFullScreen();    
 
@@ -45,9 +45,13 @@ MainWindow::MainWindow(QWidget *parent) :
                      "QMenu::item { border:1px solid rgba(255,255,255,10); background-color:rgba(255,255,255,10);}"
                      "QMenu::item:selected { border:1px solid rgba(255,255,255,30); background-color:rgba(255,255,255,30); }"
                      "QPushButton::menu-indicator { width:0px; }"
-                     "QPushButton:focus { border:1px solid rgba(255,255,255,30); background-color:rgba(255,255,255,30); outline:none; }";
+                     "QPushButton:focus { border:1px solid rgba(255,255,255,30); background-color:rgba(255,255,255,30); outline:none; }"
+                     "QPushButton#pushButtonShutdown { border-image:url(:/shutdown.svg) }"
+                     "QPushButton#pushButtonShutdown::hover { border-image:url(:/shutdown_hover.svg) }"
+                     "QPushButton#pushButtonShutMenu { border-image:url(:/menu.svg) }"
+                     "QPushButton#pushButtonShutMenu::hover { border-image:url(:/menu_hover.svg) }";
     setStyleSheet(sstyle);
-    ui->pushButtonShutdown->move(QApplication::desktop()->width() - 130, QApplication::desktop()->height() - 70);
+    ui->pushButtonShutdown->move(QApplication::desktop()->width() - 130, QApplication::desktop()->height() - 80);
     ui->pushButtonShutMenu->move(ui->pushButtonShutdown->x() + ui->pushButtonShutdown->width()+10, ui->pushButtonShutdown->y());
     ui->verticalWidgetTime->move(10, QApplication::desktop()->height() - 130);
     ui->verticalWidgetAccount->move((QApplication::desktop()->width()-ui->verticalWidgetAccount->width())/2, (QApplication::desktop()->height()-ui->verticalWidgetAccount->height())/2);
