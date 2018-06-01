@@ -15,7 +15,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //ui->pushButtonShutMenu->setIcon(style()->standardIcon(QStyle::SP_MediaPlay));
     updateTime();
     showFullScreen();    
 
@@ -24,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     timer->start(1000);
 
     QMenu *menu = new QMenu;
+    menu->setStyleSheet("color:rgb(255,255,255); background:rgba(255,255,255,20);");
     menu->setAttribute(Qt::WA_TranslucentBackground);
     menu->setAutoFillBackground(true);
     QAction *action_logout = new QAction("注销",this);
