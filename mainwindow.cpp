@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     updateTime();
-    showFullScreen();    
+    showFullScreen();
 
     QTimer *timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(updateTime()));
@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QMenu *menu = new QMenu;
     menu->setStyleSheet("color:rgb(255,255,255); background:rgba(255,255,255,20);");
-    menu->setAttribute(Qt::WA_TranslucentBackground);
+    menu->setAttribute(Qt::WA_TranslucentBackground,true);
     menu->setAutoFillBackground(true);
     QAction *action_logout = new QAction("注销",this);
     QAction *action_reboot = new QAction("重启",this);
@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->labelUserName->setText(userName);
 
     // 登录设置文件：/var/lib/AccountsService/users/用户名
-    QSettings *settings = new QSettings("/var/lib/AccountsService/users/" + userName, QSettings::IniFormat);
+    QSettings *settings = new QSettings("/var/lib/AccountsService/deepin/users/" + userName, QSettings::IniFormat);
     QString avantar = settings->value("/User/Icon").toString().replace("file://","");
     //qDebug() << avantar;
     //绘制圆形头像
@@ -63,8 +63,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->labelAvantar->setPixmap(pixmap);
 
     QString greeterBackground = settings->value("/User/GreeterBackground").toString().replace("file://","");
+    //UserInter = com::deepin::daemon::accounts::User;
+    //UserWidget->greeterBackgroundPath() => UserInter->greeterBackground();
+    //QString greeterBackground = "/usr/share/wallpapers/deepin/desktop.jpg";
     // background-image 不能拉伸，border-image 可以自动拉伸。
-    QString sstyle = "MainWindow { border-image:url(" + greeterBackground + ");}"
+    QString sstyle = "MainWindow { border-image:url(" + greeterBackground + "); background:#000000;}"
                      "QMenu { background:rgba(255,255,255,10); }"
                      "QMenu::item { background:rgba(255,255,255,10);}"
                      "QMenu::item:selected { background:rgba(255,255,255,30); }"
@@ -83,8 +86,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->pushButtonShutMenu->move(ui->pushButtonShutdown->x() + ui->pushButtonShutdown->width()+10, ui->pushButtonShutdown->y());
     ui->verticalWidgetTime->move(10, QApplication::desktop()->height() - 130);
     ui->verticalWidgetAccount->move((QApplication::desktop()->width()-ui->verticalWidgetAccount->width())/2, (QApplication::desktop()->height()-ui->verticalWidgetAccount->height())/2);
-    connect(ui->lineEditPassword,SIGNAL(textChanged(QString)),this,SLOT(passwordChange(QString)));
-    connect(ui->lineEditPassword,SIGNAL(returnPressed()),this,SLOT(on_pushButtonLogin_clicked()));
+    connect(ui->lineEditPassword, SIGNAL(textChanged(QString)), this, SLOT(passwordChange(QString)));
+    connect(ui->lineEditPassword, SIGNAL(returnPressed()), this, SLOT(on_pushButtonLogin_clicked()));
 }
 
 MainWindow::~MainWindow()
@@ -110,33 +113,36 @@ void MainWindow::on_pushButtonLogin_clicked()
     }
 }
 
-void MainWindow::on_pushButtonShutdown_clicked(){
-    QProcess *proc = new QProcess;
-    proc->start("systemctl poweroff");
-}
-
 void MainWindow::passwordChange(QString)
 {
     ui->labelTips->setText("");
 }
 
+void MainWindow::on_pushButtonShutdown_clicked(){
+    QProcess *proc = new QProcess;
+    //proc->start("systemctl poweroff");
+    proc->start("qdbus com.deepin.SessionManager /com/deepin/SessionManager com.deepin.SessionManager.RequestShutdown");
+}
+
 void MainWindow::logout()
 {
     QProcess *proc = new QProcess;
-    proc->start("qdbus com.deepin.SessionManager /com/deepin/SessionManager com.deepin.SessionManager.RequestLogout");
     //proc->start("systemctl restart lightdm");
+    proc->start("qdbus com.deepin.SessionManager /com/deepin/SessionManager com.deepin.SessionManager.RequestLogout");
 }
 
 void MainWindow::reboot()
 {
     QProcess *proc = new QProcess;
-    proc->start("systemctl reboot");
+    //proc->start("systemctl reboot");
+    proc->start("qdbus com.deepin.SessionManager /com/deepin/SessionManager com.deepin.SessionManager.RequestReboot");
 }
 
 void MainWindow::suspend()
 {
     QProcess *proc = new QProcess;
-    proc->start("systemctl suspend");
+    //proc->start("systemctl suspend");
+    proc->start("qdbus com.deepin.SessionManager /com/deepin/SessionManager com.deepin.SessionManager.RequestSuspend");
 }
 
 void MainWindow::hibernate()
