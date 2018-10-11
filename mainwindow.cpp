@@ -29,18 +29,18 @@ MainWindow::MainWindow(QWidget *parent) :
     QAction *action_logout = new QAction("注销",this);
     QAction *action_reboot = new QAction("重启",this);
     QAction *action_suspend = new QAction("待机",this);
-    QAction *action_hibernate = new QAction("休眠",this);
+    //QAction *action_hibernate = new QAction("休眠",this);
     QAction *action_lock = new QAction("锁定",this);
     menu->addAction(action_logout);
     menu->addAction(action_reboot);
     menu->addAction(action_suspend);
-    menu->addAction(action_hibernate);
+    //menu->addAction(action_hibernate);
     menu->addAction(action_lock);
     ui->pushButtonShutMenu->setMenu(menu);
     connect(action_logout,SIGNAL(triggered()),this,SLOT(logout()));
     connect(action_reboot,SIGNAL(triggered()),this,SLOT(reboot()));
     connect(action_suspend,SIGNAL(triggered()),this,SLOT(suspend()));
-    connect(action_hibernate,SIGNAL(triggered()),this,SLOT(hibernate()));
+    //connect(action_hibernate,SIGNAL(triggered()),this,SLOT(hibernate()));
     connect(action_lock,SIGNAL(triggered()),this,SLOT(lock()));
 
     QString userName = QStandardPaths::standardLocations(QStandardPaths::HomeLocation).at(0).section('/', -1);
@@ -63,9 +63,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->labelAvantar->setPixmap(pixmap);
 
     QString greeterBackground = settings->value("/User/GreeterBackground").toString().replace("file://","");
-    //UserInter = com::deepin::daemon::accounts::User;
-    //UserWidget->greeterBackgroundPath() => UserInter->greeterBackground();
-    //QString greeterBackground = "/usr/share/wallpapers/deepin/desktop.jpg";
+    // UserInter = com::deepin::daemon::accounts::User;
+    // UserWidget->greeterBackgroundPath() => UserInter->greeterBackground();
+    // QString greeterBackground = "/usr/share/wallpapers/deepin/desktop.jpg";
     // background-image 不能拉伸，border-image 可以自动拉伸。
     QString sstyle = "MainWindow { border-image:url(" + greeterBackground + "); background:#000000;}"
                      "QMenu { background:rgba(255,255,255,10); }"
@@ -145,11 +145,11 @@ void MainWindow::suspend()
     proc->start("qdbus com.deepin.SessionManager /com/deepin/SessionManager com.deepin.SessionManager.RequestSuspend");
 }
 
-void MainWindow::hibernate()
-{
-    QProcess *proc = new QProcess;
-    proc->start("systemctl hibernate");
-}
+//void MainWindow::hibernate()
+//{
+//    QProcess *proc = new QProcess;
+//    proc->start("systemctl hibernate");
+//}
 
 void MainWindow::lock()
 {

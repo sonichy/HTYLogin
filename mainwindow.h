@@ -26,8 +26,9 @@ private slots:
     void logout();
     void reboot();
     void suspend();
-    void hibernate();
+    //void hibernate();
     void lock();
+
 };
 
 #endif // MAINWINDOW_H
