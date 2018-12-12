@@ -9,6 +9,7 @@
 #include <QProcess>
 #include <QPainter>
 #include <QMenu>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -63,9 +64,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->labelAvantar->setPixmap(pixmap);
 
     QString greeterBackground = settings->value("/User/GreeterBackground").toString().replace("file://","");
-    // UserInter = com::deepin::daemon::accounts::User;
-    // UserWidget->greeterBackgroundPath() => UserInter->greeterBackground();
-    // QString greeterBackground = "/usr/share/wallpapers/deepin/desktop.jpg";
+    QFile file(greeterBackground);
+    if(!file.exists()) greeterBackground = "/usr/share/wallpapers/deepin/desktop.jpg";
     // background-image 不能拉伸，border-image 可以自动拉伸。
     QString sstyle = "MainWindow { border-image:url(" + greeterBackground + "); background:#000000;}"
                      "QMenu { background:rgba(255,255,255,10); }"
